@@ -1,45 +1,47 @@
-var http = require("http"),
+var express = require("express"),
     url = require("url"),
+    app = express(),
     captains = {},
     captain, i;
 
-http.createServer(function (request, result) {
+app.set("port", (process.env.PORT || 5000));
+app.use(express.static(__dirname + "/public"));
+
+app.get("/", function (request, response) {
     // E.g. { "name": "<yourname>" } from ?name=<yourname>
     var params = url.parse(request.url, true, true),
         query = params.query,
         name;
 
-    result.writeHead(200, {
-        "Content-Type": "text/plain"
-    });
-
-    // If a name isn't provided, list the past captains
+    // If a name isn"t provided, list the past captains
     if (!query.name) {
         if (captain) {
-            result.write("Current captain: " + captain + "\n");
+            response.send("Current captain: " + captain + "\n");
             for (i in captains) {
-                result.write(i + ": \t " + captains[i] + "\n");
+                response.send(i + ": \t " + captains[i] + "\n");
             }
         } else {
-            result.write("No captains yet!\n");
+            response.send("No captains yet!\n");
         }
-        result.end();
+        response.end();
         return;
     }
 
-    // If you're already the captain, don't do anything
+    // If you"re already the captain, don"t do anything
     if (query.name === captain) {
-        result.write(captain + ", you are already the captain!");
-        result.end();
+        response.send(captain + ", you are already the captain!");
+        response.end();
         return;
     }
 
     // Set the captain to the new person, and mark their history
     captain = query.name;
-    result.write(captain + ", you are the captain now.");
+    response.send(captain + ", you are the captain now.");
     captains[captain] = (captains[captain] || 0) + 1;
 
-    result.end();
-}).listen(1337, "127.0.0.1");
+    response.end();
+});
 
-console.log("Server running at http://127.0.0.1:1337/");
+app.listen(app.get("port"), function () {
+    console.log("Server running at " + app.get("port"));
+});

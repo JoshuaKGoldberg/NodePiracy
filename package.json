@@ -6,6 +6,9 @@
     "scripts": {
         "start": "node piracy.js"
     },
+    "dependencies": {
+        "express": "~4.9.x"
+    },
     "engines": {
         "node": "0.12.X"
     },
@@ -13,6 +16,6 @@
         "type": "git",
         "url": "https://github.com/JoshuaKGoldberg/NodePiracy"
     },
-    "keywords": ["node", "javascript", "piracy", "upe", "io"],
+    "keywords": [ "node", "javascript", "piracy", "upe", "io" ],
     "license": "MIT"
 }
