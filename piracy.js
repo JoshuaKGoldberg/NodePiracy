@@ -16,12 +16,12 @@ app.get("/", function (request, response) {
     // If a name isn"t provided, list the past captains
     if (!query.name) {
         if (captain) {
-            response.send("Current captain: " + captain + "\n");
+            response.write("Current captain: " + captain + "\n");
             for (i in captains) {
-                response.send(i + ": \t " + captains[i] + "\n");
+                response.write(i + ": \t " + captains[i] + "\n");
             }
         } else {
-            response.send("No captains yet!\n");
+            response.write("No captains yet!\n");
         }
         response.end();
         return;
@@ -29,14 +29,14 @@ app.get("/", function (request, response) {
 
     // If you"re already the captain, don"t do anything
     if (query.name === captain) {
-        response.send(captain + ", you are already the captain!");
+        response.write(captain + ", you are already the captain!");
         response.end();
         return;
     }
 
     // Set the captain to the new person, and mark their history
     captain = query.name;
-    response.send(captain + ", you are the captain now.");
+    response.write(captain + ", you are the captain now.");
     captains[captain] = (captains[captain] || 0) + 1;
 
     response.end();
